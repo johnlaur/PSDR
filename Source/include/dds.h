@@ -27,13 +27,15 @@
 	#define DDS_REG_PHASE0  ((1<<15)|(1<<14))
 	#define DDS_REG_PHASE1  ((1<<15)|(1<<14)|(1<<13))
 
-	#define DDS_FREQ_LSB_MASK  0b00000000000000000011111111111111
-	#define DDS_FREQ_LSB(freq) (uint16_t)(freq & DDS_FREQ_LSB_MASK)
+	//0b00000000000000000011111111111111
+	#define DDS_FREQ_LSB_MASK  0x00003FFF
+	#define DDS_FREQ_LSB(freq) ((uint16_t)(freq & DDS_FREQ_LSB_MASK))
 
-	#define DDS_FREQ_MSB_MASK  0b00001111111111111100000000000000
-	#define DDS_FREQ_MSB(freq) (uint16_t)((freq & DDS_FREQ_MSB_MASK) >> 14)
+	//0b00001111111111111100000000000000
+	#define DDS_FREQ_MSB_MASK  0x0FFFC000
+	#define DDS_FREQ_MSB(freq) ((uint16_t)((freq & DDS_FREQ_MSB_MASK) >> 14))
 
-	#define DDS_FREQ_HZ(freq)  (uint64_t)(freq << 28) / DDS_CLK
+	#define DDS_FREQ_HZ(freq)  ((uint64_t)freq * (1<<28) / DDS_CLK)
 
 	void ddsInit(void);
 	void ddsFreq(uint32_t);
